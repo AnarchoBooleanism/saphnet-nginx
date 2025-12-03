@@ -1,0 +1,15 @@
+# Example Docker Compose configuration, plain
+# Much of this comes from https://dev.to/marrouchi/the-challenge-about-ssl-in-docker-containers-no-one-talks-about-32gh
+
+services:
+  nginx:
+    image: ghcr.io/anarchobooleanism/saphnet-nginx:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      # Main conf file
+      - ${NGINX_PROXIES_FILE}:/etc/nginx/proxies.conf:ro
+    environment:
+      - TZ=${TZ}

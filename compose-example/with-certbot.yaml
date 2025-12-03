@@ -1,0 +1,46 @@
+# Example Docker Compose configuration, using certbot
+# Much of this comes from https://dev.to/marrouchi/the-challenge-about-ssl-in-docker-containers-no-one-talks-about-32gh
+
+# Be sure to define
+# - CERTBOT_EMAIL
+
+x-common:
+  DOMAIN: &domain "example.int.saphnet.xyz"
+
+services:
+  nginx:
+    image: ghcr.io/anarchobooleanism/saphnet-nginx:latest
+    restart: unless-stopped
+    depends_on:
+      certbot:
+        condition: service_healthy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      # Main conf file
+      - ./proxies.conf:/etc/nginx/proxies.conf:ro
+      # Certificate files
+      - certbot-conf:/etc/letsencrypt:ro
+    environment:
+      - TZ=${TZ}
+  certbot:
+    image: ghcr.io/anarchobooleanism/certbot-dns-namecheap:latest
+    restart: unless-stopped
+    volumes:
+      - certbot-conf:/etc/letsencrypt
+      - ./certbot-entrypoint.sh:/certbot-entrypoint.sh:ro
+    environment:
+      TZ: ${TZ}
+      DNS_NAMECHEAP_USERNAME: ${DNS_NAMECHEAP_USERNAME}
+      DNS_NAMECHEAP_API_KEY: ${DNS_NAMECHEAP_API_KEY}
+      CERTBOT_DOMAIN: *domain
+      CERTBOT_EMAIL: ${CERTBOT_EMAIL}
+    healthcheck:
+      test: ["CMD", "sh", "-c", "[ -f /etc/letsencrypt/live/$CERTBOT_DOMAIN/fullchain.pem ]"]
+      interval: 20s
+      retries: 12
+      start_period: 10s
+      timeout: 10s
+    # Make sure certbot is run first if not yet, then renew certificates every 12 hours
+    entrypoint: [ "/certbot-entrypoint.sh" ]
