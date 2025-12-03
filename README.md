@@ -6,10 +6,10 @@ Note that this is designed for use as a reverse proxy for publicly (or internall
 Much of this setup was copied from [Nginx Proxy Manager](https://nginxproxymanager.com/), and was also possible, thanks to this guide written by Med Marrouchi: [Setup SSL with Certbot + Nginx in a Dockerized App](https://dev.to/marrouchi/the-challenge-about-ssl-in-docker-containers-no-one-talks-about-32gh)
 
 To run this container, run this command:
-```bash
+```sh
 docker run -p 80:80 -p 443:443 \
--v EXAMPLE-DIR/proxies.conf:/etc/nginx/proxies.conf \
-ghcr.io/anarchobooleanism/saphnet-nginx:latest
+  -v EXAMPLE-DIR/proxies.conf:/etc/nginx/proxies.conf \
+  ghcr.io/anarchobooleanism/saphnet-nginx:latest
 ```
 
 For an example on using this with Docker Compose, check out this [example configuration](compose-example/compose.yaml), or this [Certbot-oriented example](compose-example/with-certbot.yaml).
