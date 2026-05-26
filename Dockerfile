@@ -1,4 +1,4 @@
-FROM nginx:1.31.0
+FROM nginx:1.31.1
 
 # To be passed from Github Actions
 ARG GIT_VERSION_TAG=unspecified
