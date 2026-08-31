@@ -14,9 +14,9 @@ COPY ./saphnet-entrypoint.sh /
 RUN mkdir -p /var/cache/nginx/client_temp /var/lib/nginx/cache/public /var/lib/nginx/cache/private
 
 # Write any Git-related info
-RUN echo $GIT_VERSION_TAG > GIT_VERSION_TAG.txt
-RUN echo $GIT_COMMIT_MESSAGE > GIT_COMMIT_MESSAGE.txt
-RUN echo $GIT_VERSION_HASH > GIT_VERSION_HASH.txt
+RUN printf "%s\n" "$GIT_VERSION_TAG" > GIT_VERSION_TAG.txt
+RUN printf "%s\n" "$GIT_COMMIT_MESSAGE" > GIT_COMMIT_MESSAGE.txt
+RUN printf "%s\n" "$GIT_VERSION_HASH" > GIT_VERSION_HASH.txt
 
 # Final ports, final setup
 EXPOSE 80
