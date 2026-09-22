@@ -9,6 +9,6 @@
   
   // Other rules
   "ignorePaths": [
-    "compose-example/compose.yaml" // Is example file
+    "compose-example/**" // Example files
   ]
 }
