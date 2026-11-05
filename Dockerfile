@@ -1,4 +1,4 @@
-FROM nginx:1.31.8@sha256:c4d1df1ca40ef8cf932f19853f00eb0f81ffe5becda1256365bbf0a057060ffb
+FROM nginx:1.31.8@sha256:165ddde8751e75a1c907d24ef10d9f6deb08b57e0fe56caf67512486aff76d82
 
 # To be passed from Github Actions
 ARG GIT_VERSION_TAG=unspecified
